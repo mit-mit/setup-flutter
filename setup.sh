@@ -33,7 +33,7 @@ echo "Installing Flutter SDK version \"${VERSION}\" from the \"${CHANNEL}\" chan
 ### SETUP FOR MAIN CHANNEL ###
 if [[ $CHANNEL == main ]]; then
   # For 'main' channel we simply git clone
-  cd ${HOME}
+  cd ${RUNNER_TOOL_CACHE}
   echo "Downloading the Flutter SDK from GitHub..."
   git clone https://github.com/flutter/flutter.git
   ./flutter/bin/flutter precache
