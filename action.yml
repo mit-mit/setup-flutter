@@ -1,0 +1,19 @@
+name: "Setup Flutter SDK"
+description: "Setup the Flutter SDK, and add it to the PATH"
+branding:
+  icon: check-circle
+  color: blue
+inputs:
+  channel:
+    description: "The channel to install ('stable', 'beta', 'dev', 'main')."
+    required: false
+    default: "stable"
+  version:
+    description: "The specific version to install ('2.2.1', '1.21.0-9.1.pre'), or 'latest'."
+    required: false
+    default: "latest"
+runs:
+  using: "composite"
+  steps:
+    - run: $GITHUB_ACTION_PATH/setup.sh ${{ inputs.channel }} ${{ inputs.version }} ${{ runner.os }}
+      shell: bash
