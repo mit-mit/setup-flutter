@@ -33,7 +33,7 @@ echo "Installing Flutter SDK version \"${VERSION}\" from the \"${CHANNEL}\" chan
 ### SETUP FOR MAIN CHANNEL ###
 if [[ $CHANNEL == main ]]; then
   # For 'main' channel we simply git clone
-  cd ${HOME}
+  cd ${RUNNER_TOOL_CACHE}
   echo "Downloading the Flutter SDK from GitHub..."
   git clone https://github.com/flutter/flutter.git
   ./flutter/bin/flutter precache
@@ -53,14 +53,20 @@ if [[ $CHANNEL != main ]]; then
   # Calculate download Url.
   PREFIX="https://storage.googleapis.com/flutter_infra_release/releases"
   if [[ $VERSION == latest ]]; then
-    ZIP=`jq ".releases [] | select(.channel==\"${CHANNEL}\") | .archive" releases.json --raw-output | head -1`
+    ZIP=`jq ".releases [] | select(.channel==\"${CHANNEL}\") | .archive" ${HOME}/releases.json --raw-output | head -1`
   else
-    ZIP=`jq ".releases [] | select(.version==\"${VERSION}\" and .channel==\"${CHANNEL}\") | .archive" releases.json --raw-output`
+    ZIP=`jq ".releases [] | select(.version==\"${VERSION}\" and .channel==\"${CHANNEL}\") | .archive" ${HOME}/releases.json --raw-output`
   fi
   URL="${PREFIX}/${ZIP}"
   echo "Downloading the Flutter SDK from \"${URL}\"..."
-  curl --connect-timeout 15 --retry 5 "$URL" > "${HOME}/sdk.zip"
-  unzip "${HOME}/sdk.zip" -d "${RUNNER_TOOL_CACHE}" > /dev/null
+  curl --connect-timeout 15 --retry 5 "$URL" > "${HOME}/sdk"
+  if [[ $OS == linux ]]; then
+    mv "${HOME}/sdk" "${HOME}/sdk.tar.xz"
+    tar xf "${HOME}/sdk.tar.xz" -C "${RUNNER_TOOL_CACHE}" > /dev/null
+  else
+    mv "${HOME}/sdk" "${HOME}/sdk.zip"
+    unzip "${HOME}/sdk.zip" -d "${RUNNER_TOOL_CACHE}" > /dev/null
+  fi
   if [ $? -ne 0 ]; then
     echo -e "::error::Download failed! Please check passed arguments."
     exit 1
