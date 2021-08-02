@@ -53,9 +53,9 @@ if [[ $CHANNEL != main ]]; then
   # Calculate download Url.
   PREFIX="https://storage.googleapis.com/flutter_infra_release/releases"
   if [[ $VERSION == latest ]]; then
-    ZIP=`jq ".releases [] | select(.channel==\"${CHANNEL}\") | .archive" releases.json --raw-output | head -1`
+    ZIP=`jq ".releases [] | select(.channel==\"${CHANNEL}\") | .archive" ${HOME}/releases.json --raw-output | head -1`
   else
-    ZIP=`jq ".releases [] | select(.version==\"${VERSION}\" and .channel==\"${CHANNEL}\") | .archive" releases.json --raw-output`
+    ZIP=`jq ".releases [] | select(.version==\"${VERSION}\" and .channel==\"${CHANNEL}\") | .archive" ${HOME}/releases.json --raw-output`
   fi
   URL="${PREFIX}/${ZIP}"
   echo "Downloading the Flutter SDK from \"${URL}\"..."
