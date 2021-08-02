@@ -59,8 +59,14 @@ if [[ $CHANNEL != main ]]; then
   fi
   URL="${PREFIX}/${ZIP}"
   echo "Downloading the Flutter SDK from \"${URL}\"..."
-  curl --connect-timeout 15 --retry 5 "$URL" > "${HOME}/sdk.zip"
-  unzip "${HOME}/sdk.zip" -d "${RUNNER_TOOL_CACHE}" > /dev/null
+  curl --connect-timeout 15 --retry 5 "$URL" > "${HOME}/sdk"
+  if [[ $OS == linux ]]; then
+    mv "${HOME}/sdk" "${HOME}/sdk.tar.xz"
+    tar "${HOME}/sdk.tar.xz" -d "${RUNNER_TOOL_CACHE}" > /dev/null
+  else
+    mv "${HOME}/sdk" "${HOME}/sdk.zip"
+    unzip "${HOME}/sdk.zip" -d "${RUNNER_TOOL_CACHE}" > /dev/null
+  fi
   if [ $? -ne 0 ]; then
     echo -e "::error::Download failed! Please check passed arguments."
     exit 1
