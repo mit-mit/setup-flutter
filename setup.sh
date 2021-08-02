@@ -62,7 +62,7 @@ if [[ $CHANNEL != main ]]; then
   curl --connect-timeout 15 --retry 5 "$URL" > "${HOME}/sdk"
   if [[ $OS == linux ]]; then
     mv "${HOME}/sdk" "${HOME}/sdk.tar.xz"
-    tar xf "${HOME}/sdk.tar.xz" -d "${RUNNER_TOOL_CACHE}" > /dev/null
+    tar xf "${HOME}/sdk.tar.xz" -C "${RUNNER_TOOL_CACHE}" > /dev/null
   else
     mv "${HOME}/sdk" "${HOME}/sdk.zip"
     unzip "${HOME}/sdk.zip" -d "${RUNNER_TOOL_CACHE}" > /dev/null
