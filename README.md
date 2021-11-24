@@ -7,7 +7,7 @@ This [GitHub Action](https://github.com/flutter/setup-flutter) installs and sets
 * Downloading the Flutter SDK
 * Adding the [`flutter`](https://flutter.dev/docs/reference/flutter-cli) command to path
 * Adding the [`dart`](https://dart.dev/tools/dart-tool) command to path
-* Anding the `pub` cache to path (for [pub globals](https://dart.dev/tools/pub/cmd/pub-global))
+* Anding the [`pub`](https://dart.dev/tools/pub/cmd) cache to path (for [pub globals](https://dart.dev/tools/pub/cmd/pub-global))
 
 # Usage
 
